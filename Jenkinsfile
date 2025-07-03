@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/seu-usuario/cpf-validator.git'
+                git 'https://github.com/EvilasioJuniorUFC/cpf-validator.git'
             }
         }
 
