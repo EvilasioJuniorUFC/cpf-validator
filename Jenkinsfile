@@ -4,33 +4,32 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/EvilasioJuniorUFC/cpf-validator.git'
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    extensions: [],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/seu-usuario/cpf-validator.git',
+                        credentialsId: '' // Adicione se for repositório privado
+                    ]]
+                ])
             }
         }
 
-        stage('Build Docker') {
+        stage('Build and Test') {
             steps {
                 bat 'docker build -t cpf-validator .'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                bat 'docker run cpf-validator pytest'
+                bat 'docker run --name cpf-validator-test cpf-validator pytest'
+                bat 'docker rm -f cpf-validator-test || exit 0'
             }
         }
 
         stage('Deploy') {
             steps {
+                bat 'docker stop cpf-validator-app || exit 0'
+                bat 'docker rm -f cpf-validator-app || exit 0'
                 bat 'docker run -d -p 5000:5000 --name cpf-validator-app cpf-validator'
             }
-        }
-    }
-
-    post {
-        always {
-            bat 'docker stop cpf-validator-app || exit 0'
-            bat 'docker rm cpf-validator-app || exit 0'
         }
     }
 }
