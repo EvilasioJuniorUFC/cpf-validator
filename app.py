@@ -26,6 +26,12 @@ def validate_cpf():
     data = request.get_json()
     cpf = data.get('cpf', '').replace('.', '').replace('-', '')
     return jsonify({"valid": is_valid_cpf(cpf)})
+    
+# Nova rota GET
+@app.route('/validate-cpf/<string:cpf>', methods=['GET'])
+def validate_cpf_get(cpf):
+    cleaned_cpf = cpf.replace('.', '').replace('-', '')
+    return jsonify({"valid": is_valid_cpf(cleaned_cpf)})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

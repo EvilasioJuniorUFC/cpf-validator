@@ -1,5 +1,7 @@
 import pytest
-from app import is_valid_cpf
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def test_valid_cpf():
     assert is_valid_cpf("52998224725") == True  # CPF válido
