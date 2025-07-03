@@ -7,16 +7,22 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
       
-      - name: Set up Docker
-        uses: docker/setup-qemu-action@v2
-        uses: docker/setup-buildx-action@v2
-      
-      - name: Run with Docker Compose
+      - name: Install legacy docker-compose
         run: |
-          # Usando a sintaxe nativa do Docker Compose V2
-          docker compose version  # Novo formato (sem hífen)
-          docker compose up -d app
-          docker compose run tests
-          docker compose down
+          sudo curl -L "https://github.com/docker/compose/releases/download/v2.23.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+              
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+        
+      - name: Set up Docker Compose
+        uses: docker/setup-buildx-action@v2
+        # ou use a instalação manual acima
+      
+      - name: Build and test
+        run: |
+          docker-compose --version
+          docker-compose up -d app
+          docker-compose run tests
