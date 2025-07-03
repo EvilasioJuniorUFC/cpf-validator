@@ -7,7 +7,7 @@ from app import is_valid_cpf
 
 
 def test_valid_cpf():
-    assert is_valid_cpf("52998224728") == True  # CPF válido
+    assert is_valid_cpf("52998224725") == True  # CPF válido
 
 def test_invalid_cpf():
     assert is_valid_cpf("12345678901") == False  # CPF inválido
