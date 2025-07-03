@@ -9,7 +9,7 @@ pipeline {
                     branches: [[name: '*/main']],
                     extensions: [],
                     userRemoteConfigs: [[
-                        url: 'https://github.com/seu-usuario/cpf-validator.git',
+                        url: 'https://github.com/EvilasioJuniorUFC/cpf-validator.git',
                         credentialsId: '' // Adicione se for repositório privado
                     ]]
                 ])
