@@ -18,17 +18,17 @@ pipeline {
 
         stage('Build and Test') {
             steps {
-                bat 'docker build -t cpf-validator .'
-                bat 'docker run --name cpf-validator-test cpf-validator pytest'
-                bat 'docker rm -f cpf-validator-test || exit 0'
+                sh 'docker build -t cpf-validator .'
+                sh 'docker run --name cpf-validator-test cpf-validator pytest'
+                sh 'docker rm -f cpf-validator-test || exit 0'
             }
         }
 
         stage('Deploy') {
             steps {
-                bat 'docker stop cpf-validator-app || exit 0'
-                bat 'docker rm -f cpf-validator-app || exit 0'
-                bat 'docker run -d -p 5000:5000 --name cpf-validator-app cpf-validator'
+                sh 'docker stop cpf-validator-app || exit 0'
+                sh 'docker rm -f cpf-validator-app || exit 0'
+                sh 'docker run -d -p 5000:5000 --name cpf-validator-app cpf-validator'
             }
         }
     }
